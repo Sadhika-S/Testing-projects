@@ -1,0 +1,130 @@
+package autoproject;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class Autom {
+
+	ChromeDriver driver = new ChromeDriver();
+	
+	@BeforeTest
+	public void setup()
+	{
+		driver.get("https://www.irctc.co.in/nget/profile/user-registration");
+		driver.manage().window().maximize();
+	}
+	
+	@Test (priority = 2)
+	public void test1()
+	{
+		driver.findElement(By.id("firstName")).sendKeys("James");
+		driver.findElement(By.id("middleName")).sendKeys("Roy");
+		driver.findElement(By.id("lastname")).sendKeys("Varghese");
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[5]/p-dropdown/div/div[2]/span")).click(); //click occupation
+		driver.findElement(By.xpath("//span[contains(text(),'STUDENT')]")).click(); //select occupation
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[6]/p-calendar/span/input")).click(); //click dob
+		
+		WebElement month = driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[6]/p-calendar/span/div/div/div[1]/div/select[1]"));
+		month.click();
+		Select month1 = new Select(month);
+		month1.selectByIndex(0);
+		
+		WebElement year = driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[6]/p-calendar/span/div/div/div[1]/div/select[2]"));
+		year.click();
+		Select year1 = new Select(year);
+		year1.selectByValue("2004");
+		
+		
+		/*List <WebElement> alldays = driver.findElements(By.xpath("//tbody[contains(@class, 'ng-tns-c58-10')]"));
+		System.out.println("Number of days: " +alldays.size());
+		for (WebElement day : alldays)
+		{
+			String calendarDay = day.getText();
+			System.out.println(calendarDay);
+			if (calendarDay.equals("14")) 
+			{
+				day.click();
+				System.out.println("Clicked");
+				break;
+			}
+		}*/
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[6]/p-calendar/span/div/div/div[2]/table/tbody/tr[2]/td[7]/a")).click(); //click date (here Jan 10)
+		driver.findElement(By.xpath("//*[@id=\"unmarried\"]/div/div[2]")).click(); //unmarried radio button
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[8]/select")).click(); //click country
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[8]/select/option[106]")).click(); //select country
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[9]/p-selectbutton/div/div[1]/span")).click(); //click gender
+		driver.findElement(By.name("email")).sendKeys("james123@gmail.com");
+		driver.findElement(By.name("mobile")).sendKeys("0987654321");
+		
+		WebElement nationality = driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-1\"]/div/div[13]/select"));
+		nationality.click();
+		Select nationality1 = new Select(nationality);
+		nationality1.selectByVisibleText("India");
+		
+		driver.findElement(By.xpath("//*[@id=\"divMain\"]/div/app-user-registration/div/div/form/div/div[2]/div[2]/div[2]/button")).click(); //continue
+		
+	}
+	
+	@Test (priority = 1)
+	public void test2()
+	{
+		driver.findElement(By.id("userName")).sendKeys("jamesroy");
+		driver.findElement(By.id("usrPwd")).sendKeys("Abc#1234");
+		driver.findElement(By.id("cnfUsrPwd")).sendKeys("Abc#1234");
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-0\"]/div/div[5]/p-dropdown/div/div[2]/span")).click(); //click preferred language
+		driver.findElement(By.xpath("//span[contains(text(),'English')]")).click(); //select language
+		//driver.findElement(By.xpath("//span[contains(text(),'हिंदी')]")).click();
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-0\"]/div/div[6]/p-dropdown/div/div[2]/span")).click(); //click security question
+		driver.findElement(By.xpath("//span[contains(text(),'What is your pet name?')]")).click(); //select security question
+		
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-0\"]/div/div[7]/input")).sendKeys("Jamy"); //enter security answer
+		
+		driver.findElement(By.xpath("//*[@id=\"divMain\"]/div/app-user-registration/div/div/form/div/div[2]/div[2]/div[2]/button")).click(); //continue
+		
+	}
+	
+	@Test (priority = 3)
+	public void test3()
+	{
+		driver.findElement(By.name("resAddress1")).sendKeys("502");
+		driver.findElement(By.name("resAddress2")).sendKeys("Street 114");
+		driver.findElement(By.name("resAddress3")).sendKeys("Udyog Vihar Area");
+		driver.findElement(By.name("resPinCode")).sendKeys("400011");
+		
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		
+		WebElement city = driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-2\"]/div/div[5]/select"));
+		city.click();
+		Select city1 = new Select(city);
+		city1.selectByVisibleText("Mumbai");
+		
+		WebElement postoffice = driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-2\"]/div/div[7]/select"));
+		postoffice.click();
+		Select postoffice1 = new Select(postoffice);
+		postoffice1.selectByIndex(4);
+		
+		driver.findElement(By.id("resPhone")).sendKeys("0484264123");
+		driver.findElement(By.xpath("//*[@id=\"yes\"]/div/div[2]")).click(); //copy address radio button
+		driver.findElement(By.xpath("//*[@id=\"ui-tabpanel-2\"]/div/div[12]/span[1]")).click(); //tick checkbox
+		driver.findElement(By.xpath("//*[@id=\"divMain\"]/div/app-user-registration/div/div/form/div/div[2]/div[2]/div[2]/button")).click(); //register
+	}
+	
+	@AfterTest
+	public void end()
+	{
+		driver.quit();
+	}
+}
